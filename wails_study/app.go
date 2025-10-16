@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
+	"time"
 )
 
 // App struct
@@ -19,9 +21,28 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+
+	runtime.EventsOn(ctx, "showVersion", func(events ...any) {
+		fmt.Println("showVersion", events)
+		runtime.EventsEmit(ctx, "showUser", "xxxUser001")
+	})
+
+	runtime.EventsOn(ctx, "getUser", func(events ...any) {
+		go func() {
+			time.Sleep(2 * time.Second)
+			runtime.EventsEmit(ctx, "sendUser", "xxxUser002")
+		}()
+
+	})
 }
 
 // Greet returns a greeting for the given name
 func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Hello %s, It's show time!", name)
+}
+
+func (a *App) ShowDate() string {
+	now := time.Now().Format(time.DateTime)
+	fmt.Println("show Date " + now)
+	return fmt.Sprintf(now)
 }

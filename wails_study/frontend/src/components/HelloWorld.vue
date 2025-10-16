@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {reactive} from 'vue'
-import {Greet} from '../../wailsjs/go/main/App'
+import {Greet, ShowDate} from '../../wailsjs/go/main/App'
+import {EventsEmit, EventsOn} from "../../wailsjs/runtime";
 
 const data = reactive({
   name: "",
@@ -13,6 +14,28 @@ function greet() {
   })
 }
 
+async function showDate() {
+  const date = await ShowDate()
+  data.resultText = "后端返回的数据：" + date
+}
+
+function showVersion() {
+  EventsEmit("showVersion", "xxx")
+  EventsEmit("showVersion")
+}
+
+EventsOn("showUser", function (name: string) {
+  data.resultText = "用户信息：" + name
+})
+EventsOn("sendUser", function (name: string) {
+  data.resultText = "用户信息：" + name
+})
+
+function getUser(){
+  EventsEmit("getUser")
+}
+
+
 </script>
 
 <template>
@@ -21,6 +44,9 @@ function greet() {
     <div id="input" class="input-box">
       <input id="name" v-model="data.name" autocomplete="off" class="input" type="text"/>
       <button class="btn" @click="greet">Greet</button>
+      <button class="btn" @click="showDate">showDate</button>
+      <button class="btn" @click="showVersion">showVersion</button>
+      <button class="btn" @click="getUser">获取用户</button>
     </div>
   </main>
 </template>
