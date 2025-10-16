@@ -137,3 +137,12 @@ func (a *App) getBrowserMenu() *menu.Menu {
 	})
 	return m
 }
+
+func (a *App) getRouterMenu() *menu.Menu {
+	m := menu.NewMenu()
+	routerMenu := m.AddSubmenu("路由")
+	routerMenu.AddText("设置", &keys.Accelerator{}, func(data *menu.CallbackData) {
+		runtime.EventsEmit(a.ctx, "router", "settings")
+	})
+	return m
+}

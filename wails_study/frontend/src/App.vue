@@ -1,4 +1,11 @@
 <script lang="ts" setup>
+import {EventsOn} from "../wailsjs/runtime";
+import {router} from "./router";
+
+EventsOn("router", function (name) {
+  router.push({name})
+})
+
 
 </script>
 

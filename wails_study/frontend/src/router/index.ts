@@ -17,6 +17,11 @@ export const router = createRouter({
             path: "/about",
             name: "about",
             component: ()=>import("../views/about.vue"),
+        },
+        {
+            path: "/settings",
+            name: "settings",
+            component: ()=>import("../views/settings.vue"),
         }
     ],
 });
