@@ -34,6 +34,8 @@ func (a *App) startup(ctx context.Context) {
 		}()
 
 	})
+
+	a.hotKey()
 }
 
 // Greet returns a greeting for the given name
