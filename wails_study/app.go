@@ -35,7 +35,8 @@ func (a *App) startup(ctx context.Context) {
 
 	})
 
-	a.hotKey()
+	go a.hotKey()  // 全局快捷键
+	go a.systray() // 系统托盘
 }
 
 // Greet returns a greeting for the given name
