@@ -95,3 +95,36 @@ func (a *App) getScreenMenu() *menu.Menu {
 	})
 	return m
 }
+
+func (a *App) getWindowMenu() *menu.Menu {
+	m := menu.NewMenu()
+	windowMenu := m.AddSubmenu("窗口")
+	windowMenu.AddText("刷新js", keys.Key("f5"), func(data *menu.CallbackData) {
+		fmt.Println("刷新")
+		runtime.WindowReload(a.ctx)
+	})
+	windowMenu.AddText("刷新应用", keys.Control("f5"), func(data *menu.CallbackData) {
+		fmt.Println("刷新应用")
+		runtime.WindowReloadApp(a.ctx)
+	})
+	windowMenu.AddText("隐藏", &keys.Accelerator{}, func(data *menu.CallbackData) {
+		fmt.Println("隐藏")
+		runtime.WindowHide(a.ctx)
+		go func() {
+			time.Sleep(2 * time.Second)
+			runtime.WindowShow(a.ctx)
+		}()
+	})
+	var isTop bool
+	windowMenu.AddCheckbox("置顶", false, keys.Key("f10"), func(data *menu.CallbackData) {
+		isTop = !isTop
+		runtime.WindowSetAlwaysOnTop(a.ctx, isTop)
+		windowMenu.Items[3].SetChecked(isTop)
+	})
+
+	windowMenu.AddText("执行js", &keys.Accelerator{}, func(data *menu.CallbackData) {
+		fmt.Println("执行js")
+		runtime.WindowExecJS(a.ctx, "alert('hello')")
+	})
+	return m
+}

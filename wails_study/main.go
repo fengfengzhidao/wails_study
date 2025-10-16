@@ -23,7 +23,7 @@ func main() {
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
-		Menu:             app.getScreenMenu(),
+		Menu:             app.getWindowMenu(),
 		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
 		OnStartup:        app.startup,
 		Bind: []interface{}{
