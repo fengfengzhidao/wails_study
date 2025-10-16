@@ -6,6 +6,7 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/menu/keys"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"os"
+	"time"
 )
 
 func (a *App) getMenu() *menu.Menu {
@@ -63,6 +64,19 @@ func (a *App) getFileMenu() *menu.Menu {
 		fmt.Println(filePath, err)
 		err = os.WriteFile(filePath, []byte("hello"), 0644)
 		fmt.Println(err)
+	})
+	return m
+}
+
+func (a *App) getClipboardMenu() *menu.Menu {
+	m := menu.NewMenu()
+	clipboardMenu := m.AddSubmenu("剪贴板")
+	clipboardMenu.AddText("复制", keys.Control("c"), func(data *menu.CallbackData) {
+		runtime.ClipboardSetText(a.ctx, "设置当前时间："+time.Now().Format(time.DateTime))
+	})
+	clipboardMenu.AddText("粘贴", keys.Control("c"), func(data *menu.CallbackData) {
+		text, err := runtime.ClipboardGetText(a.ctx)
+		fmt.Println(text, err)
 	})
 	return m
 }
