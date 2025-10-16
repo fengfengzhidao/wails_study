@@ -80,3 +80,18 @@ func (a *App) getClipboardMenu() *menu.Menu {
 	})
 	return m
 }
+
+func (a *App) getScreenMenu() *menu.Menu {
+	m := menu.NewMenu()
+	screenMenu := m.AddSubmenu("屏幕")
+	screenMenu.AddCheckbox("全屏", false, keys.Key("f11"), func(data *menu.CallbackData) {
+		if runtime.WindowIsFullscreen(a.ctx) {
+			runtime.WindowUnfullscreen(a.ctx)
+			screenMenu.Items[0].SetChecked(false)
+		} else {
+			runtime.WindowFullscreen(a.ctx)
+			screenMenu.Items[0].SetChecked(true)
+		}
+	})
+	return m
+}
