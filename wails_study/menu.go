@@ -128,3 +128,12 @@ func (a *App) getWindowMenu() *menu.Menu {
 	})
 	return m
 }
+
+func (a *App) getBrowserMenu() *menu.Menu {
+	m := menu.NewMenu()
+	windowMenu := m.AddSubmenu("浏览器")
+	windowMenu.AddText("关于枫枫", &keys.Accelerator{}, func(data *menu.CallbackData) {
+		runtime.BrowserOpenURL(a.ctx, "https://www.fengfengzhidao.com")
+	})
+	return m
+}
