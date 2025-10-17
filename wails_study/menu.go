@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/martinlindhe/notify"
 	"github.com/wailsapp/wails/v2/pkg/menu"
 	"github.com/wailsapp/wails/v2/pkg/menu/keys"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -143,6 +144,9 @@ func (a *App) getRouterMenu() *menu.Menu {
 	routerMenu := m.AddSubmenu("路由")
 	routerMenu.AddText("设置", &keys.Accelerator{}, func(data *menu.CallbackData) {
 		runtime.EventsEmit(a.ctx, "router", "settings")
+	})
+	routerMenu.AddText("系统消息", &keys.Accelerator{}, func(data *menu.CallbackData) {
+		notify.Alert("APP", "rev a msg", "have people digg", "E:\\IT\\go_pro\\webview_study\\wails_study\\build\\appicon.png")
 	})
 	return m
 }
